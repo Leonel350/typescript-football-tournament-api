@@ -3,6 +3,7 @@ import Tournament from "../schemas/Tournament";
 import Match from "../schemas/Match";
 import { body, validationResult } from "express-validator";
 import { getWon, getTied, getLost, getPoints } from "../lib/Scores";
+import Team from "../schemas/Team";
 
 class TournamentRoutes {
    router: Router;
@@ -56,45 +57,27 @@ class TournamentRoutes {
    }
 
    public async getTable(req: Request, res: Response) {
-      const tournamentData = await Tournament.findById(req.params.id)
-         .populate("teams")
-         .populate("matches")
-         .populate("matches.team1")
-         .populate("matches.team2");
+      const teams = await Team.find({tournament: req.params.id});
       const matchesData = await Match.find({ tournament: req.params.id })
          .populate("team1")
          .populate("team2");
       const table: any = {};
+      teams.forEach((team) => {
+         table[team._id] = {
+            team: team.name,
+            badge: team.badge,
+            _id: team._id,
+            played: 0,
+            won: 0,
+            lost: 0,
+            tied: 0,
+            points: 0,
+            goalsFor: 0,
+            goalsAgainst: 0,
+            goalDifference: 0,
+         }
+      });
       matchesData.forEach((t) => {
-         console.log(t);
-         if (!table[t.team1._id]) {
-            table[t.team1._id] = {
-               team: t.team1.name,
-               _id: t.team1._id,
-               played: 0,
-               won: 0,
-               lost: 0,
-               tied: 0,
-               points: 0,
-               goalsFor: 0,
-               goalsAgainst: 0,
-               goalDifference: 0,
-            };
-         }
-         if (!table[t.team2._id]) {
-            table[t.team2._id] = {
-               team: t.team2.name,
-               _id: t.team2._id,
-               played: 0,
-               won: 0,
-               lost: 0,
-               tied: 0,
-               points: 0,
-               goalsFor: 0,
-               goalsAgainst: 0,
-               goalDifference: 0,
-            };
-         }
          table[t.team1._id].played += 1;
          table[t.team1._id].goalsFor += t.score1;
          table[t.team1._id].goalsAgainst += t.score2;
