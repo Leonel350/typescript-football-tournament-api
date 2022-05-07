@@ -13,7 +13,6 @@ class TeamsRoutes {
 
    public async validateTournament(req: Request, res: Response, next: any) {
       const tournamentId = req.params.tournamentId;
-      console.log(req.params);
 
       if (
          isValidObjectId(tournamentId) &&
@@ -73,7 +72,6 @@ class TeamsRoutes {
       if (req.body.hasOwnProperty("name")) {
          editObject.name = name;
       }
-      console.log(JSON.stringify(editObject));
       if (editObject.length === 0) {
          res.status(400).json({
             errors: [{ msg: "Cannot update the team" }],

@@ -53,11 +53,18 @@ class TournamentRoutes {
 
    public async deleteTournament(req: Request, res: Response) {
       const tournament = await Tournament.findByIdAndDelete(req.params.id);
+      tournament.teams.forEach((team: any) => {
+         Team.findByIdAndDelete(team);
+      });
+      tournament.matches.forEach((match: any) => {
+         Match.findByIdAndDelete(match);
+      });
+
       res.json(tournament);
    }
 
    public async getTable(req: Request, res: Response) {
-      const teams = await Team.find({tournament: req.params.id});
+      const teams = await Team.find({ tournament: req.params.id });
       const matchesData = await Match.find({ tournament: req.params.id })
          .populate("team1")
          .populate("team2");
@@ -75,28 +82,33 @@ class TournamentRoutes {
             goalsFor: 0,
             goalsAgainst: 0,
             goalDifference: 0,
-         }
+         };
       });
       matchesData.forEach((t) => {
-         table[t.team1._id].played += 1;
-         table[t.team1._id].goalsFor += t.score1;
-         table[t.team1._id].goalsAgainst += t.score2;
-         table[t.team1._id].goalDifference =
-            table[t.team1._id].goalsFor - table[t.team1._id].goalsAgainst;
-         table[t.team1._id].points += getPoints(t.score1, t.score2);
-         table[t.team1._id].won += getWon(t.score1, t.score2);
-         table[t.team1._id].lost += getLost(t.score1, t.score2);
-         table[t.team1._id].tied += getTied(t.score1, t.score2);
-         table[t.team2._id].played += 1;
-         table[t.team2._id].goalsFor += t.score2;
-         table[t.team2._id].goalsAgainst += t.score1;
-         table[t.team2._id].goalDifference =
-            table[t.team2._id].goalsFor - table[t.team2._id].goalsAgainst;
-         table[t.team2._id].points += getPoints(t.score2, t.score1);
-         table[t.team2._id].won += getWon(t.score2, t.score1);
-         table[t.team2._id].lost += getLost(t.score2, t.score1);
-         table[t.team2._id].tied += getTied(t.score2, t.score1);
-         console.log(table);
+         if (t.score1 !== undefined && t.score2 !== undefined) {
+            if (t.team1) {
+               table[t.team1._id].played += 1;
+               table[t.team1._id].goalsFor += t.score1;
+               table[t.team1._id].goalsAgainst += t.score2;
+               table[t.team1._id].goalDifference =
+                  table[t.team1._id].goalsFor - table[t.team1._id].goalsAgainst;
+               table[t.team1._id].points += getPoints(t.score1, t.score2);
+               table[t.team1._id].won += getWon(t.score1, t.score2);
+               table[t.team1._id].lost += getLost(t.score1, t.score2);
+               table[t.team1._id].tied += getTied(t.score1, t.score2);
+            }
+            if (t.team2) {
+               table[t.team2._id].played += 1;
+               table[t.team2._id].goalsFor += t.score2;
+               table[t.team2._id].goalsAgainst += t.score1;
+               table[t.team2._id].goalDifference =
+                  table[t.team2._id].goalsFor - table[t.team2._id].goalsAgainst;
+               table[t.team2._id].points += getPoints(t.score2, t.score1);
+               table[t.team2._id].won += getWon(t.score2, t.score1);
+               table[t.team2._id].lost += getLost(t.score2, t.score1);
+               table[t.team2._id].tied += getTied(t.score2, t.score1);
+            }
+         }
       });
       const tableArray = Object.keys(table).map((key) => table[key]);
       tableArray.sort((a, b) => {

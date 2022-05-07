@@ -33,13 +33,20 @@ class MatchesRoutes {
       }
       const { tournamentId } = req.params;
       const { team1, team2, score1, score2 } = req.body;
-      const match = await Match.create({
+      let createObject: any = {
          tournament: tournamentId,
          team1,
          team2,
-         score1,
-         score2,
-      });
+      };
+      console.log(score1);
+      if (score1) {
+         createObject["score1"] = score1;
+      }
+      if (score2) {
+         createObject["score2"] = score2;
+      }
+      console.log(createObject);
+      const match = await Match.create(createObject);
       const tournament = await Tournament.findById(tournamentId);
       tournament.matches.push(match._id);
       await tournament.save();
@@ -58,7 +65,9 @@ class MatchesRoutes {
       res.json(matches);
    }
    public async getMatch(req: Request, res: Response) {
-      const match = await Match.findById(req.params.id).populate("team1").populate("team2");
+      const match = await Match.findById(req.params.id)
+         .populate("team1")
+         .populate("team2");
       res.json(match);
    }
    public async validateTeams(req: Request, res: Response, next: any) {
@@ -131,8 +140,6 @@ class MatchesRoutes {
          "/:tournamentId/matches",
          body("team1").isString(),
          body("team2").isString(),
-         body("score1").isInt(),
-         body("score2").isInt(),
          this.validateTournament,
          this.validateTeams,
          this.createMatch
