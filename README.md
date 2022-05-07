@@ -11,7 +11,7 @@ This API is deployed to Heroku using MongoDB Atlas.
 
 **Make requests to `https://football-tournament-api.herokuapp.com/api` to test the API.**
 
-All the API request can be seen and tested and imported to postman in: **https://documenter.getpostman.com/view/20866179/UyxdL9gd**
+All the API request and response examples can be seen and imported to postman in: **https://documenter.getpostman.com/view/20866179/UyxdL9gd**
 
 ## Tournaments 🏆
 
