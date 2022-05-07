@@ -12,7 +12,6 @@ class MatchesRoutes {
    }
    public async validateTournament(req: Request, res: Response, next: any) {
       const tournamentId = req.params.tournamentId;
-      console.log(req.params);
 
       if (
          isValidObjectId(tournamentId) &&
@@ -38,14 +37,12 @@ class MatchesRoutes {
          team1,
          team2,
       };
-      console.log(score1);
       if (score1) {
          createObject["score1"] = score1;
       }
       if (score2) {
          createObject["score2"] = score2;
       }
-      console.log(createObject);
       const match = await Match.create(createObject);
       const tournament = await Tournament.findById(tournamentId);
       tournament.matches.push(match._id);
