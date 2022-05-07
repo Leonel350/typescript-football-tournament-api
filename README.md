@@ -18,8 +18,8 @@ You can create a new Tournament and give it a name. Inside this tournament you c
 ---
 
 ### Create Tournament
-Description: **Creates a new tournament.**
-Path: **/tournaments**
+Description: **Creates a new tournament.**  
+Path: **/tournaments**  
 Method: **POST**
 
 Request: (JSON)
@@ -38,8 +38,8 @@ Response: (JSON, Object)
 
 ---
 ### Update Tournament
-Description: **Updates a tournament.**
-Path: **/tournaments/{id}**
+Description: **Updates a tournament.**  
+Path: **/tournaments/{id}**  
 Method: **PUT**
 
 Request: (JSON)
@@ -58,8 +58,8 @@ Response: (JSON, Object)
 
 ---
 ### Fetch Tournamets
-Description: **Retrives all tournaments**
-Path: **/tournaments**
+Description: **Retrives all tournaments**  
+Path: **/tournaments**  
 Method: **GET**
 
 Response: (JSON, Array of Objects)
@@ -73,8 +73,8 @@ Response: (JSON, Array of Objects)
 
 ---
 ### Get Tournament
-Description: **Retrives one tournament**
-Path: **/tournaments/{id}**
+Description: **Retrives one tournament**  
+Path: **/tournaments/{id}**  
 Method: **GET**
 
 Response: (JSON, Object)
@@ -89,17 +89,19 @@ Response: (JSON, Object)
 ---
 
 ### Delete Tournament
-Description: **Removes a tournament**
-Path: **/tournaments/{id}**
+Description: **Removes a tournament**  
+Path: **/tournaments/{id}**  
 Method: **DELETE**
 
 Response: (JSON, Object)
 **All the deleted tournament data**
 
+This action will delete all teams and matches related to the tournament.
+
 ---
 ### Get Table
-Description: **Generates all the information needed for the positions table of the tournament in order of points**
-Path: **/tournaments/{id}/table**
+Description: **Generates all the information needed for the positions table of the tournament in order of points**  
+Path: **/tournaments/{id}/table**  
 Method: **GET**
 
 Response: (JSON, Array of Objects)
@@ -125,8 +127,8 @@ Teams can optionally have a badge (image url).
 ---
 
 ### Create Team
-Description: **Creates a new team.**
-Path: **/tournaments/{tournamentId}/teams**
+Description: **Creates a new team.**  
+Path: **/tournaments/{tournamentId}/teams**  
 Method: **POST**
 
 Request: (JSON)
@@ -149,8 +151,8 @@ Response: (JSON, Object)
 ---
 
 ### Update Team
-Description: **Updates a team.**
-Path: **/tournaments/{tournamentId}/teams/{id}**
+Description: **Updates a team.**  
+Path: **/tournaments/{tournamentId}/teams/{id}**  
 Method: **PUT**
 
 Request: (JSON)
@@ -172,8 +174,8 @@ Response: (JSON, Object)
 ---
 
 ### Get Team
-Description: **Gets all the information of a team including matches**
-Path: **/tournaments/{tournamentId}/teams/{id}**
+Description: **Gets all the information of a team including matches**  
+Path: **/tournaments/{tournamentId}/teams/{id}**  
 Method: **GET**
 
 Response: (JSON, Object)
@@ -189,8 +191,8 @@ Response: (JSON, Object)
 ---
 
 ### Fetch Teams
-Description: **Gets all the teams of the tournament**
-Path: **/tournaments/{tournamentId}/teams**
+Description: **Gets all the teams of the tournament**  
+Path: **/tournaments/{tournamentId}/teams**  
 Method: **GET**
 
 Response: (JSON, Array of Objects)
@@ -205,8 +207,8 @@ Response: (JSON, Array of Objects)
 
 ---
 ### Delete Team
-Description: **Removes a team from the tournament**
-Path: **/tournaments/{tournamentId}/teams/{id}**
+Description: **Removes a team from the tournament**  
+Path: **/tournaments/{tournamentId}/teams/{id}**  
 Method: **DELETE**
 
 Response: (JSON, Object)
@@ -217,12 +219,11 @@ For the integrity of the information, its not recomended to delete a team that a
 
 ## Matches
 Every tournament has matches. This information will be used to make the torunament positions table.
-
 ---
 
 ### Create Match
-Description: **Creates a new match.**
-Path: **/tournaments/{tournamentId}/matches**
+Description: **Creates a new match.**  
+Path: **/tournaments/{tournamentId}/matches**  
 Method: **POST**
 
 Request: (JSON)
@@ -230,8 +231,8 @@ Request: (JSON)
 |--|--|--|
 | team1 | string | The id of the local team
 | team2 | string | The id of the visiting team
-| score1 | int | Number of goals the team 1 made
-| score2 | int | Number of goals the team 2 made
+| score1 | int | (Optional) Number of goals the team 1 made
+| score2 | int | (Optional) Number of goals the team 2 made
 
 
 Response: (JSON, Object)
@@ -243,12 +244,15 @@ Response: (JSON, Object)
 | tournament | string |Id of the tournament
 | createdAt | string |The date of the creation of the match
 | updatedAt | string |The date of the last update of the match
+| score1 | int | (If exists) Number of goals the team 1 made
+| score2 | int | (If exists) Number of goals the team 2 made
 
+A match can be created without scores and will not be counted on the positions table until it is updated with the result.
 ---
 
 ### Update Match
-Description: **Updates the score of a match.**
-Path: **/tournaments/{tournamentId}/matches/{id}**
+Description: **Updates the score of a match.**  
+Path: **/tournaments/{tournamentId}/matches/{id}**  
 Method: **PUT**
 
 Request: (JSON)
@@ -270,8 +274,8 @@ Response: (JSON, Object)
 
 ---
 ### Get Match
-Description: **Get a match with all the teams information**
-Path: **/tournaments/{tournamentId}/matches/{id}**
+Description: **Get a match with all the teams information**  
+Path: **/tournaments/{tournamentId}/matches/{id}**  
 Method: **GET**
 
 Response: (JSON, Object)
@@ -287,8 +291,8 @@ Response: (JSON, Object)
 ---
 
 ### Fetch Matches
-Description: **Fetch all the matches of the tournament**
-Path: **/tournaments/{tournamentId}/matches**
+Description: **Fetch all the matches of the tournament**  
+Path: **/tournaments/{tournamentId}/matches**  
 Method: **GET**
 
 Response: (JSON, Array of Objects)
@@ -303,8 +307,8 @@ Response: (JSON, Array of Objects)
 
 ---
 ### Delete Match
-Description: **Removes a match from the tournament**
-Path: **/tournaments/{tournamentId}/matches/{id}**
+Description: **Removes a match from the tournament**  
+Path: **/tournaments/{tournamentId}/matches/{id}**  
 Method: **DELETE**
 
 Response: (JSON, Object)
