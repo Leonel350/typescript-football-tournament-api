@@ -45,7 +45,7 @@ class Server {
   routes(): void {
     this.app.use("/api/tournaments", tournamentRouter);
     this.app.use("/api/tournaments", teamsRouter);
-    this.app.use("/api/tournaments/:tournamentId/matches", matchesRouter);
+    this.app.use("/api/tournaments", matchesRouter);
   }
 }
 
