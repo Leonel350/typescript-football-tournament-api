@@ -1,5 +1,5 @@
 import express from "express";
-import "dotenv/config";
+import * as dotenv from "dotenv";
 import morgan from "morgan";
 import helmet from "helmet";
 import mongoose from "mongoose";
@@ -12,6 +12,7 @@ class Server {
    public app: express.Application;
 
    constructor() {
+      dotenv.config();
       this.app = express();
       this.config();
       this.routes();
