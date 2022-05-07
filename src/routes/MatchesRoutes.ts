@@ -58,7 +58,7 @@ class MatchesRoutes {
       res.json(matches);
    }
    public async getMatch(req: Request, res: Response) {
-      const match = await Match.findById(req.params.id);
+      const match = await Match.findById(req.params.id).populate("team1").populate("team2");
       res.json(match);
    }
    public async validateTeams(req: Request, res: Response, next: any) {
@@ -139,8 +139,6 @@ class MatchesRoutes {
       );
       this.router.put(
          "/:tournamentId/matches/:id",
-         body("team1").isString(),
-         body("team2").isString(),
          body("score1").isInt(),
          body("score2").isInt(),
          this.validateTournament,

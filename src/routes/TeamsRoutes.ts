@@ -53,7 +53,10 @@ class TeamsRoutes {
    }
 
    public async getTeam(req: Request, res: Response) {
-      const team = await Team.findById(req.params.id);
+      const team = await Team.findById(req.params.id).populate({
+         path: 'matches',
+         populate: { path: 'team1 team2', select: 'name' },
+     });
       res.json(team);
    }
    public async updateTeam(req: Request, res: Response) {
