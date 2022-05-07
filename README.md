@@ -11,6 +11,8 @@ This API is deployed to Heroku using MongoDB Atlas.
 
 **Make requests to `https://football-tournament-api.herokuapp.com/api` to test the API.**
 
+All the API request can be seen and tested and imported to postman in: **https://documenter.getpostman.com/view/20866179/UyxdL9gd**
+
 ## Tournaments 🏆
 
 You can create a new Tournament and give it a name. Inside this tournament you can create teams and matches.
