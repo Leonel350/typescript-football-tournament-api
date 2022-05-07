@@ -219,6 +219,7 @@ For the integrity of the information, its not recomended to delete a team that a
 
 ## Matches
 Every tournament has matches. This information will be used to make the torunament positions table.
+
 ---
 
 ### Create Match
