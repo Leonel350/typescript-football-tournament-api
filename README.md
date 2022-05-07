@@ -251,6 +251,7 @@ Response: (JSON, Object)
 | score2 | int | (If exists) Number of goals the team 2 made
 
 A match can be created without scores and will not be counted on the positions table until it is updated with the result.
+
 ---
 
 ### Update Match
