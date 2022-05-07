@@ -7,10 +7,15 @@ The API is divided in:
  - Teams
  - Matches
 
+This API is deployed to Heroku using MongoDB Atlas.
+
+**Make requests to `https://football-tournament-api.herokuapp.com/api` to test the API.**
 
 ## Tournaments
 
 You can create a new Tournament and give it a name. Inside this tournament you can create teams and matches.
+
+---
 
 ### Create Tournament
 Description: **Creates a new tournament.**
@@ -82,6 +87,16 @@ Response: (JSON, Object)
 | updatedAt | date |The date of the last update of the tournament
 
 ---
+
+### Delete Tournament
+Description: **Removes a tournament**
+Path: **/tournaments/{id}**
+Method: **DELETE**
+
+Response: (JSON, Object)
+**All the deleted tournament data**
+
+---
 ### Get Table
 Description: **Generates all the information needed for the positions table of the tournament in order of points**
 Path: **/tournaments/{id}/table**
@@ -101,3 +116,200 @@ Response: (JSON, Array of Objects)
 | goalsFor | int |The ammount goals made by the team
 | goalsAgainst | int |The ammount goals the team conceded
 | goalDifference | int |The goal difference (goalsFor-goalsAgainst)
+
+## Teams
+
+You need to create teams for the tournament in  order to create matches.
+Teams can optionally have a badge (image url).
+
+---
+
+### Create Team
+Description: **Creates a new team.**
+Path: **/tournaments/{tournamentId}/teams**
+Method: **POST**
+
+Request: (JSON)
+| Parameter  | Type  | Description
+|--|--|--|
+| name | string |The name of the team
+| badge | string | (Optional) A url of an image for the team badge
+
+Response: (JSON, Object)
+| Parameter  | Type  | Description
+|--|--|--|
+| _id | string |Id of the team
+| name | string |The name of the team
+| badge | string | (If exists) A url of an image for the team badge 
+| matches | string |An empty array with all the ids of the matches the team will or has played
+| createdAt | string |The date of the creation of the team
+| updatedAt | string |The date of the last update of the team
+
+
+---
+
+### Update Team
+Description: **Updates a team.**
+Path: **/tournaments/{tournamentId}/teams/{id}**
+Method: **PUT**
+
+Request: (JSON)
+| Parameter  | Type  | Description
+|--|--|--|
+| name | string |The name of the team
+| badge | string | A url of an image for the team badge
+
+Response: (JSON, Object)
+| Parameter  | Type  | Description
+|--|--|--|
+| _id | string |Id of the team
+| name | string |The name of the team
+| badge | string | (If exists) A url of an image for the team badge 
+| matches | string |An array with all the ids of the matches the team will or has played
+| createdAt | string |The date of the creation of the team
+| updatedAt | string |The date of the last update of the team
+
+---
+
+### Get Team
+Description: **Gets all the information of a team including matches**
+Path: **/tournaments/{tournamentId}/teams/{id}**
+Method: **GET**
+
+Response: (JSON, Object)
+| Parameter  | Type  | Description
+|--|--|--|
+| _id | string |Id of the team
+| name | string |The name of the team
+| badge | string | (If exists) A url of an image for the team badge 
+| matches | string |An array with all the matches of the team with team names and ids
+| createdAt | string |The date of the creation of the team
+| updatedAt | string |The date of the last update of the team
+
+---
+
+### Fetch Teams
+Description: **Gets all the teams of the tournament**
+Path: **/tournaments/{tournamentId}/teams**
+Method: **GET**
+
+Response: (JSON, Array of Objects)
+| Parameter  | Type  | Description
+|--|--|--|
+| _id | string |Id of the team
+| name | string |The name of the team
+| badge | string | (If exists) A url of an image for the team badge 
+| matches | string |An array with the ids of the matches of the team
+| createdAt | string |The date of the creation of the team
+| updatedAt | string |The date of the last update of the team
+
+---
+### Delete Team
+Description: **Removes a team from the tournament**
+Path: **/tournaments/{tournamentId}/teams/{id}**
+Method: **DELETE**
+
+Response: (JSON, Object)
+**All the data of the deleted team**
+
+This will not delete the teams matches but it will not appear on the table.
+For the integrity of the information, its not recomended to delete a team that already has matches.
+
+## Matches
+Every tournament has matches. This information will be used to make the torunament positions table.
+
+---
+
+### Create Match
+Description: **Creates a new match.**
+Path: **/tournaments/{tournamentId}/matches**
+Method: **POST**
+
+Request: (JSON)
+| Parameter  | Type  | Description
+|--|--|--|
+| team1 | string | The id of the local team
+| team2 | string | The id of the visiting team
+| score1 | int | Number of goals the team 1 made
+| score2 | int | Number of goals the team 2 made
+
+
+Response: (JSON, Object)
+| Parameter  | Type  | Description
+|--|--|--|
+| _id | string |Id of the match
+| team1 | string | The id of the local team
+| team2 | string | The id of the visiting team
+| tournament | string |Id of the tournament
+| createdAt | string |The date of the creation of the match
+| updatedAt | string |The date of the last update of the match
+
+---
+
+### Update Match
+Description: **Updates the score of a match.**
+Path: **/tournaments/{tournamentId}/matches/{id}**
+Method: **PUT**
+
+Request: (JSON)
+| Parameter  | Type  | Description
+|--|--|--|
+| score1 | int | Number of goals the team 1 made
+| score2 | int | Number of goals the team 2 made
+
+
+Response: (JSON, Object)
+| Parameter  | Type  | Description
+|--|--|--|
+| _id | string |Id of the match
+| team1 | string | The id of the local team
+| team2 | string | The id of the visiting team
+| tournament | string |Id of the tournament
+| createdAt | string |The date of the creation of the match
+| updatedAt | string |The date of the last update of the match
+
+---
+### Get Match
+Description: **Get a match with all the teams information**
+Path: **/tournaments/{tournamentId}/matches/{id}**
+Method: **GET**
+
+Response: (JSON, Object)
+| Parameter  | Type  | Description
+|--|--|--|
+| _id | string |Id of the match
+| team1 | string | All the information of the local team
+| team2 | string | All the information of the visiting team
+| tournament | string |Id of the tournament
+| createdAt | string |The date of the creation of the match
+| updatedAt | string |The date of the last update of the match
+
+---
+
+### Fetch Matches
+Description: **Fetch all the matches of the tournament**
+Path: **/tournaments/{tournamentId}/matches**
+Method: **GET**
+
+Response: (JSON, Array of Objects)
+| Parameter  | Type  | Description
+|--|--|--|
+| _id | string |Id of the match
+| team1 | string | The id and name of the local team
+| team2 | string | The id and name of the visiting team
+| tournament | string |Id of the tournament
+| createdAt | string |The date of the creation of the match
+| updatedAt | string |The date of the last update of the match
+
+---
+### Delete Match
+Description: **Removes a match from the tournament**
+Path: **/tournaments/{tournamentId}/matches/{id}**
+Method: **DELETE**
+
+Response: (JSON, Object)
+**All the data of the deleted match**
+
+This will delete the match and the result will not be counted for the positions table anymore.
+
+---
