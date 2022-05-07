@@ -1,4 +1,4 @@
-# Football Tournament API
+# Football Tournament API ⚽
 
 This API, made with express using Typescript and MongoDB can manage a football tournament.
 
@@ -11,7 +11,7 @@ This API is deployed to Heroku using MongoDB Atlas.
 
 **Make requests to `https://football-tournament-api.herokuapp.com/api` to test the API.**
 
-## Tournaments
+## Tournaments 🏆
 
 You can create a new Tournament and give it a name. Inside this tournament you can create teams and matches.
 
@@ -99,7 +99,7 @@ Response: (JSON, Object)
 This action will delete all teams and matches related to the tournament.
 
 ---
-### Get Table
+### Get Table ⭐
 Description: **Generates all the information needed for the positions table of the tournament in order of points**  
 Path: **/tournaments/{id}/table**  
 Method: **GET**
@@ -119,7 +119,7 @@ Response: (JSON, Array of Objects)
 | goalsAgainst | int |The ammount goals the team conceded
 | goalDifference | int |The goal difference (goalsFor-goalsAgainst)
 
-## Teams
+## Teams 🏃‍♀️
 
 You need to create teams for the tournament in  order to create matches.
 Teams can optionally have a badge (image url).
@@ -217,7 +217,7 @@ Response: (JSON, Object)
 This will not delete the teams matches but it will not appear on the table.
 For the integrity of the information, its not recomended to delete a team that already has matches.
 
-## Matches
+## Matches 0️⃣-0️⃣
 Every tournament has matches. This information will be used to make the torunament positions table.
 
 ---
